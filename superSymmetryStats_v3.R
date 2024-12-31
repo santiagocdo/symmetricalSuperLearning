@@ -337,19 +337,20 @@ bf2
 
 
 ## ## POST HOC E3_P2 anova per block ## ##
-# anovas_trials <- matrix(NA, 5, 6); colnames(anovas_trials) <- paste0(rep(c("F","p"),2),"_",
-#                                                                      rep(c("ctrlType","PosNeg","interaction"),each=2))
-anovas_trials <- matrix(NA, 5, 2); colnames(anovas_trials) <- paste0(rep(c("F","p"),1),"_",
-                                                                     rep(c("ctrlType"),each=2))
+anovas_trials <- matrix(NA, 5, 6); colnames(anovas_trials) <- paste0(rep(c("F","p"),2),"_", 
+                                                                     rep(c("ctrlType","PosNeg","interaction"),each=2))
+# anovas_trials <- matrix(NA, 5, 2); colnames(anovas_trials) <- paste0(rep(c("F","p"),1),"_",
+#                                                                      rep(c("ctrlType"),each=2))
 for (i in 1:nrow(anovas_trials)) {
   # Andy's email on the 30/04/2024
-  b <- summary(aov(rat0comp ~ ctrlType + Error(Subject/ctrlType), data = main[main$Trials == levels(main$Trials)[i],]))
+  # b <- summary(aov(rat0comp ~ ctrlType + Error(Subject/ctrlType), data = main[main$Trials == levels(main$Trials)[i],]))
+  b <- summary(aov(rat0comp ~ ctrlType * PosNeg + Error(Subject/(PosNeg * ctrlType)), data = main[main$Trials == levels(main$Trials)[i],]))
   anovas_trials[i,1] <- b$`Error: Subject:ctrlType`[[1]][1,4]
   anovas_trials[i,2] <- b$`Error: Subject:ctrlType`[[1]][1,5]
-  # anovas_trials[i,3] <- b$`Error: Subject:PosNeg`[[1]][1,4]
-  # anovas_trials[i,4] <- b$`Error: Subject:PosNeg`[[1]][1,5]
-  # anovas_trials[i,5] <- b$`Error: Subject:PosNeg:ctrlType`[[1]][1,4]
-  # anovas_trials[i,6] <- b$`Error: Subject:PosNeg:ctrlType`[[1]][1,5]
+  anovas_trials[i,3] <- b$`Error: Subject:PosNeg`[[1]][1,4]
+  anovas_trials[i,4] <- b$`Error: Subject:PosNeg`[[1]][1,5]
+  anovas_trials[i,5] <- b$`Error: Subject:PosNeg:ctrlType`[[1]][1,4]
+  anovas_trials[i,6] <- b$`Error: Subject:PosNeg:ctrlType`[[1]][1,5]
 }; remove(b)
 round(anovas_trials,4)
 # write.csv(anovas_trials,"figures/table3ph2.csv",row.names = F)

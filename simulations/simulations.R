@@ -64,7 +64,7 @@ names(expLabs) <- c("1", "2", "3")
 
 library(ggplot2)
 fig5 <- ggplot(sim, aes(x=blocks,y=value,shape=variable,fill=variable)) +
-  labs(title="Rescorla-Wagner simulation",y="Associative Strenght (V)",x="Blocks") +
+  labs(title="Rescorla-Wagner simulation",y="Associative Strength (V)",x="Blocks") +
   geom_hline(yintercept = 0, col = "gray50") +
   stat_summary(geom="line", position=position_dodge(0.1)) + 
   stat_summary(fun.data="mean_cl_boot",position=position_dodge(0.1)) + 
